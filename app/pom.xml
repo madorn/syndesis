@@ -91,8 +91,8 @@
     <opentracing.spring.web.starter.version>3.0.0</opentracing.spring.web.starter.version>
 
     <!-- Global camel version used everywhere -->
-    <camel.version>3.0.0-RC3</camel.version>
-    <camel-k-runtime.version>0.3.4.fuse-740009-redhat-00002</camel-k-runtime.version>
+    <camel.version>3.0.0</camel.version>
+    <camel-k-runtime.version>1.0.7</camel-k-runtime.version>
 
     <!-- Don't fork based on cores, doesn't work nicely in the cloud -->
     <basepom.test.fork-count>1</basepom.test.fork-count>
@@ -130,6 +130,7 @@
     <shrinkwrap.version>2.2.6</shrinkwrap.version>
 
     <mailapi.version>1.6.4</mailapi.version>
+    <jakarta-mail.version>1.6.4</jakarta-mail.version>
     <json-schema-core.version>1.2.8</json-schema-core.version>
     <json-schema-validator.version>2.2.10</json-schema-validator.version>
     <junit.version>4.12</junit.version>
@@ -154,6 +155,7 @@
     <version.javax.activation>1.2.1</version.javax.activation>
 
     <javac.werror>-Werror</javac.werror>
+    <apache.http.version>4.5.10</apache.http.version>
   </properties>
 
   <modules>
@@ -757,6 +759,7 @@
               <ignoredResourcePattern>draftv3/schema</ignoredResourcePattern>
               <ignoredResourcePattern>draftv4/schema</ignoredResourcePattern>
               <ignoredResourcePattern>git.properties</ignoredResourcePattern>
+              <ignoredResourcePattern>.gitkeep</ignoredResourcePattern>
               <ignoredResourcePattern>mockito-extensions/org\.mockito\.plugins\.MockMaker</ignoredResourcePattern>
               <!-- see https://github.com/fabric8io/kubernetes-client/issues/1847 -->
               <ignoredResourcePattern>resource-handler-services.vm</ignoredResourcePattern>
@@ -777,7 +780,7 @@
                 <conflictingDependencies>
                   <dependency>
                     <groupId>org.apache.camel</groupId>
-                    <artifactId>camel-core</artifactId>
+                    <artifactId>camel-util-json</artifactId>
                   </dependency>
                   <dependency>
                     <groupId>org.apache.camel</groupId>
@@ -785,7 +788,22 @@
                   </dependency>
                 </conflictingDependencies>
                 <packages>
-                  <package>org.apache.camel.json.simple</package>
+                  <package>org.apache.camel.util.json</package>
+                </packages>
+              </exception>
+              <exception>
+                <conflictingDependencies>
+                  <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jcl</artifactId>
+                  </dependency>
+                </conflictingDependencies>
+                <packages>
+                  <package>org.apache.commons.logging</package>
                 </packages>
               </exception>
               <exception>
@@ -812,6 +830,10 @@
                   <dependency>
                     <groupId>xpp3</groupId>
                     <artifactId>xpp3_min</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>xpp3</groupId>
+                    <artifactId>xpp3</artifactId>
                   </dependency>
                 </conflictingDependencies>
                 <packages>
@@ -855,6 +877,10 @@
                     <artifactId>javax.ws.rs-api</artifactId>
                   </dependency>
                   <dependency>
+                    <groupId>jakarta.ws.rs</groupId>
+                    <artifactId>jakarta.ws.rs-api</artifactId>
+                  </dependency>
+                  <dependency>
                     <groupId>org.jboss.spec.javax.ws.rs</groupId>
                     <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
                   </dependency>
@@ -896,6 +922,137 @@
                 </conflictingDependencies>
                 <packages>
                   <package>zipkin2</package>
+                </packages>
+              </exception>
+              <exception>
+                <conflictingDependencies>
+                  <dependency>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-core</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>jaxb-runtime</artifactId>
+                  </dependency>
+                </conflictingDependencies>
+                <packages>
+                  <package>com.sun.xml</package>
+                </packages>
+                <resourcePatterns>
+                  <resourcePattern>com/sun/xml/.*</resourcePattern>
+                </resourcePatterns>
+              </exception>
+              <exception>
+                <conflictingDependencies>
+                  <dependency>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-impl</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>jaxb-runtime</artifactId>
+                  </dependency>
+                </conflictingDependencies>
+                <packages>
+                  <package>com.sun.xml</package>
+                </packages>
+                <resourcePatterns>
+                  <resourcePattern>com/sun/xml/.*</resourcePattern>
+                </resourcePatterns>
+              </exception>
+              <exception>
+                <conflictingDependencies>
+                  <dependency>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-core</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>txw2</artifactId>
+                  </dependency>
+                </conflictingDependencies>
+                <packages>
+                  <package>com.sun.xml</package>
+                </packages>
+              </exception>
+              <exception>
+                <conflictingDependencies>
+                  <dependency>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-core</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>com.sun.istack</groupId>
+                    <artifactId>istack-commons-runtime</artifactId>
+                  </dependency>
+                </conflictingDependencies>
+                <packages>
+                  <package>com.sun.istack</package>
+                </packages>
+              </exception>
+              <exception>
+                <conflictingDependencies>
+                  <dependency>
+                    <groupId>jakarta.xml.bind</groupId>
+                    <artifactId>jakarta.xml.bind-api</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>com.sun.activation</groupId>
+                    <artifactId>jakarta.activation</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>com.sun.activation</groupId>
+                    <artifactId>javax.activation</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>javax.activation-api</artifactId>
+                  </dependency>
+                </conflictingDependencies>
+                <packages>
+                  <package>javax.activation</package>
+                  <package>com.sun.activation</package>
+                </packages>
+              </exception>
+              <exception>
+                <conflictingDependencies>
+                  <dependency>
+                    <groupId>jakarta.xml.bind</groupId>
+                    <artifactId>jakarta.xml.bind-api</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.jboss.spec.javax.xml.bind</groupId>
+                    <artifactId>jboss-jaxb-api_2.3_spec</artifactId>
+                  </dependency>
+                </conflictingDependencies>
+                <packages>
+                  <package>javax.xml.bind</package>
+                </packages>
+                <resourcePatterns>
+                  <resourcePattern>javax/xml/bind/.*</resourcePattern>
+                </resourcePatterns>
+              </exception>
+              <exception>
+                <conflictingDependencies>
+                  <dependency>
+                    <groupId>jakarta.ws.rs</groupId>
+                    <artifactId>jakarta.ws.rs-api</artifactId>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.jboss.spec.javax.ws.rs</groupId>
+                    <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+                  </dependency>
+                </conflictingDependencies>
+                <packages>
+                  <package>javax.ws.rs</package>
                 </packages>
               </exception>
             </exceptions>
@@ -1098,14 +1255,6 @@
 
       <!-- BOMs -->
       <dependency>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-spring-boot-dependencies</artifactId>
-        <version>${camel.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
-      <dependency>
         <groupId>com.fasterxml.jackson</groupId>
         <artifactId>jackson-bom</artifactId>
         <version>${jackson.version}</version>
@@ -1125,6 +1274,14 @@
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
         <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.camel.springboot</groupId>
+        <artifactId>camel-spring-boot-dependencies</artifactId>
+        <version>${camel.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -1737,12 +1894,36 @@
         </exclusions>
       </dependency>
 
+      <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>2.3.2</version>
+      </dependency>
+
       <!-- TODO: Maybe import BOM ? -->
       <dependency>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-core</artifactId>
         <version>${camel.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-properties</artifactId>
+        <version>${camel.version}</version>
+      </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-base</artifactId>
+        <version>${camel.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-http</artifactId>
+        <version>${camel.version}</version>
+    </dependency>
 
       <dependency>
         <groupId>org.apache.camel</groupId>
@@ -1767,6 +1948,10 @@
         <artifactId>spring-core</artifactId>
         <version>${spring.version}</version>
         <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
           <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jcl</artifactId>
@@ -2220,6 +2405,12 @@
       </dependency>
 
       <dependency>
+        <groupId>com.sun.mail</groupId>
+        <artifactId>jakarta.mail</artifactId>
+        <version>${jakarta-mail.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>com.github.java-json-tools</groupId>
         <artifactId>json-schema-core</artifactId>
         <version>${json-schema-core.version}</version>
@@ -2235,6 +2426,12 @@
         <groupId>javax.ws.rs</groupId>
         <artifactId>javax.ws.rs-api</artifactId>
         <version>2.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>jakarta.ws.rs</groupId>
+        <artifactId>jakarta.ws.rs-api</artifactId>
+        <version>2.1.5</version>
       </dependency>
 
       <dependency>
@@ -2538,6 +2735,12 @@
       </dependency>
 
       <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-params</artifactId>
+        <version>${junit5.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>io.fabric8</groupId>
         <artifactId>mockwebserver</artifactId>
         <version>0.1.3</version>
@@ -2650,6 +2853,10 @@
             <artifactId>commons-logging</artifactId>
           </exclusion>
           <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging-api</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
           </exclusion>
@@ -2658,6 +2865,16 @@
       <dependency>
         <groupId>com.consol.citrus</groupId>
         <artifactId>citrus-java-dsl</artifactId>
+        <version>${citrus.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.consol.citrus.model</groupId>
+        <artifactId>citrus-model-core</artifactId>
+        <version>${citrus.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.consol.citrus.model</groupId>
+        <artifactId>citrus-model-http</artifactId>
         <version>${citrus.version}</version>
       </dependency>
       <dependency>
@@ -2698,6 +2915,21 @@
           <exclusion>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>com.icegreen</groupId>
+        <artifactId>greenmail</artifactId>
+        <version>1.5.10</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -2784,6 +3016,34 @@
         <groupId>com.amazonaws</groupId>
         <artifactId>DynamoDBLocal</artifactId>
         <version>${aws-dynamodb-local.version}</version>
+      </dependency>
+
+      <!-- Telegram -->
+
+      <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-telegram</artifactId>
+        <version>${camel.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <!-- HTTP -->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${apache.http.version}</version>
+        <classifier>tests</classifier>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
     </dependencies>
